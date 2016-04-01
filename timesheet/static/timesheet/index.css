@@ -1,0 +1,93 @@
+.noselect {
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none;  
+    -khtml-user-select: none;    
+    -moz-user-select: none;     
+    -ms-user-select: none;
+    user-select: none;
+
+}
+body {
+    width: 2200px;
+}
+table {
+    margin-top:40px;
+    table-layout: fixed;
+}
+table.table>tbody>tr>td {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    height: 90px;
+    border: 4px solid #DDD;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+table.table>thead>tr>th{
+    border: 5px solid #DDD;
+}
+table.table>tbody>tr>th {
+    border: 5px solid #DDD;
+}
+.active2,tr.active3>th{
+    background-color: lightgreen;
+}
+.highlighted {
+    background-color: lightblue;
+}
+td.active2.dragged{
+    background-color: orange;
+}
+td.active2.oldie{
+    background-color: lightblue; 
+}
+span.client {
+    font-size: 18px;
+    text-align: center;
+}
+span.jobtype {
+    font-size: 15px;
+    text-align: center;
+}
+span.description {
+    font-size: 14px;
+    text-align: center;
+}
+
+/* MESSAGES & ERRORS */
+ul.messages {
+    padding: 0;
+    margin-top: 10px;
+}
+
+ul.messages li {
+    display: block;
+    font-weight: 400;
+    font-size: 13px;
+    padding: 10px 10px 10px 65px;
+    margin: 0 0 10px 0;
+    background: #dfd 40px 12px no-repeat;
+    background-size: 16px auto;
+    color: #333;
+}
+
+ul.messages li.warning {
+    background: #ffc 40px 14px no-repeat;
+    background-size: 14px auto;
+}
+
+ul.messages li.error {
+    background: #ffefef 40px 12px no-repeat;
+    background-size: 16px auto;
+}
+
+ul.progress-ul {
+    height: 7px;
+}
+div.progress-div {
+    height: 7px;
+}
+div.modal-footer>h5 {
+    display: inline-block;
+    float: left;
+}

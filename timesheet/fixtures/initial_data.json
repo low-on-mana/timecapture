@@ -1,0 +1,17 @@
+[
+  {
+    "model": "timesheet.Client",
+    "pk": 1,
+    "fields": {
+      "name": "Miscellaneous",
+      "color": "#6195a0"
+    }
+  },
+  {
+    "model": "timesheet.Jobtype",
+    "pk": 1,
+    "fields": {
+      "name": "Leave"
+    }
+  }
+]

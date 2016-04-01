@@ -1,0 +1,77 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            {% if green_progress_fill > 0 %}
+            <ul class="nav progress-ul"> 
+                <li>
+                    <div class="progress progress-div" data-toggle="tooltip" data-placement="bottom" data-title={% if hrs_left_reach_target > 0 %}"you are {{ hrs_left_reach_target }} hrs behind target" {% else %} "Well done !" {% endif %}>
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{ green_progress_fill }}%">
+                            <span class="sr-only">{{ green_progress_fill }}% Complete</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            {% if red_progress_fill > 0%}
+            <ul class="nav progress-ul"> 
+                <li>
+                    <div class="progress progress-div">
+                        <div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{ red_progress_fill }}%">
+                            <span class="sr-only">{{ red_progress_fill }}% Complete</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            {% endif %}
+            {% endif %}
+            <ul class="nav navbar-nav">
+                <li> <a href="{% url 'timesheet:index' %}">Timesheet <i class="fa fa-refresh fa-lg"></i></a> </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li> <a data-toggle="modal" data-target="#helpModal" >Help <i class="fa fa-info-circle fa-lg"></i></a> </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-user">&nbsp;</span>{% if request.user.first_name %}{{ request.user.first_name }}{% else %}{{ request.user.email}}{% endif %}&nbsp;<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a></li>
+                        <li><a href="{% url 'auth_info' %}"><i class="fa fa-key"></i>&nbsp;&nbsp;Change password</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<!-- Modal -->
+<div class="modal modal-large fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Welcome to timesheet help</h4>
+      </div>
+      <div class="modal-body">
+          <p>Usage instructions/restrictions: </p>
+          <br>
+          <ol>
+              <li>This is a Week Display / Daily Fill timesheet. </li>
+              <li>You can only fill your entries in the highlighted row with <i class="fa fa-calendar-check-o"></i> symbol.</li>
+              <li>You can select an hour with a click or drag and select multiple hours. </li>
+              <li>Entries once filled cannot be changed. So click submit after you are sure of your entries. </li>
+              <li>Entries doesn't have to be filled all together. They just have to be filled on the same day.</li>
+              <li>If you have made a mistake and not submitted yet, hit refresh <i class="fa fa-refresh"></i>.</li>
+              <li>You will be allowed to mark a day as leave if its highlighted by <i class="fa fa-beer"></i> symbol.</li>
+              <li>To mark days as leaves not displayed on this timesheet, contact a staff member.</li> 
+              <li>Use latest version of firefox/chrome with javascript on. There is no support for IE/Edge.</li>
+              <li>This application is still in testing phase. Please bear with it and report bugs to a staff member.</li>
+          </ol> 
+        </div>
+      <div class="modal-footer">
+          {% if hours_worked_this_week > 0 %}
+          <h5>Hours worked this week: <strong>{{ hours_worked_this_week }}</strong></h5>
+          {% endif %}
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

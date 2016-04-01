@@ -1,0 +1,101 @@
+{% extends "timemetric/admin/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load app_filters %}
+{# {% block extrastyle %} #}
+{# {% include 'timecapture/basic_css.html' %} #}
+{# {% endblock %} #}
+{% block extrastyle2 %}
+<link rel="stylesheet" href="{% static 'admin/css/forms.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/global.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}"/>
+{# <style> #}
+{#     #header { #}
+{#         box-sizing: content-box; #}
+{#     } #}
+{#     #site-name { #}
+{#         line-height : inherit;   /* fuckin bootstrap wasted hours here */ #}
+{#     } #}
+{# </style> #}
+{% endblock %}
+
+
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+
+{% block content %}
+<!-- Errors -->
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+</p>
+{% endif %}
+
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">
+    {{ error }}
+</p>
+{% endfor %}
+{% endif %}
+
+{% if other_errors %}
+<p class="errornote">
+    {{ other_errors }}
+</p>
+{% endif %}
+<!-- Errors end -->
+
+
+<form id="theonlyform" enctype="multipart/form-data" >
+<fieldset class="module aligned">
+<div class="form-row" >
+    <label for="{{form.date.id_for_label}}">{{form.date.label}}</label>
+    {{form.date.errors}}{{form.date}}
+    <p class="help">{{form.date.help_text}}</p>
+</div>
+<div class="submit-row">
+    <input id="submitbutton" type="submit" value="submit" class="default" name="_save"/>
+</div>
+</fieldset>
+</form>
+
+{% if queryset %}
+<h2>{{msg}}</h2>
+<table>
+    <tr><th>Name</th><th>Leaves</th>
+    {% for item in queryset %}
+    <tr>
+        <td>{{user_dict|get_item:item.employee}}</td>
+        <td>{{item.id__count}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
+
+
+
+{% block footer %}
+
+{% if get_success %}
+<script>
+    var win = window.open('{{user_n_date.0}}/{{user_n_date.1}}/', '_blank');
+    win.focus();
+</script>
+{% endif %}
+<script type="text/javascript" src="{% static 'admin/js/jquery.js' %}"></script>
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/actions.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/calendar.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+{% endblock %}
+

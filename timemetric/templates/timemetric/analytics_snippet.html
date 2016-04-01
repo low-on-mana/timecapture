@@ -1,0 +1,61 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div id="render-to-pdf" class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 style="font-size:17px" class="modal-title" id="myModalLabel">Billables for {{ client }} ({{startdate}}-{{enddate}}):</h4>
+          
+      </div>
+      <div class="modal-body">
+          <br>
+            <table style="margin:0 auto;width:700px" class="table table-striped">
+                <tr>
+                    <th>Employee</th>
+                    <th>Hours</th>
+                    <th>CostPerHr</th>
+                    <th>TotalCost</th>
+                </tr>
+                {% for query_item in query_results1 %}
+                <tr>
+                    <td>{{query_item.0}}</td>
+                    <td>{{query_item.1}}</td>
+                    <td>{{query_item.2}}</td>
+                    <td>{{query_item.3}}</td>
+                </tr> 
+                {% endfor %}
+
+                <tr>
+                    <th>Total Hrs</th>
+                    <td>{{ total_hours_and_cost.0 }}</td>
+                    <th>Total Cost</th>
+                    <td>{{ total_hours_and_cost.1 }}</td>
+                </tr> 
+            </table>
+            <br>
+            <br>
+            <p>Only the following jobtypes have been considered:</p>
+            <table style="margin:0 auto;width:700px" class="table table-striped">
+                <tr>
+                    <th>Jobtype</th>
+                    <th>Hours</th>
+                </tr> 
+                {% for query_item in query_results2 %}
+                <tr>
+                    <td>{{query_item.0}}</td>
+                    <td>{{query_item.1}}</td>
+                </tr> 
+                {% endfor %}
+                <tr>
+                    <th>Total Hrs</th>
+                    <td>{{ total_hours_and_cost.2 }}</td>
+                </tr> 
+            </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id="getPDF" type="button" class="btn btn-primary">Get PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
