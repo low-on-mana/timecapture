@@ -5,11 +5,13 @@
         {% include 'timecapture/basic_css.html' %}
         {% block css %}{% endblock %}
         <title>{% block title %}{% endblock %}</title>
+        {% block pad %}
         <style>
             body {
                 padding: 50px;
             }
         </style>
+        {% endblock %}
     </head>
     <body>
         {% block content %}

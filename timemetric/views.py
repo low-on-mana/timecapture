@@ -8,7 +8,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from timesheet.models import TsheetEntry,Client,JobType
 from timecapture.models import TimeUser
 from timesheet import rendertsheet
-from .forms import MetricInputForm,OldsheetInputForm,LeaveRegisterInputForm
+from timecapture.commons import get_number_of_weekdays
+from .forms import MetricInputForm,OldsheetInputForm,LeaveRegisterInputForm,HourlyMetricInputForm
 
 @staff_member_required
 def index(request):
@@ -23,12 +24,12 @@ def index(request):
         enddate = form.cleaned_data['enddate']
         client = form.cleaned_data['client']
         jobtypes = form.cleaned_data['jobtype']
-        users = form.cleaned_data['employee']
+        users = form.cleaned_data['e']
         
         queried_jobtypes_list = list(map(lambda x: x.name,jobtypes))
         queried_users_list = list(map(lambda x: x.id,users))
         
-        total_users_dict = dict((obj.id,obj)for obj in TimeUser.objects.all())
+        total_users_dict = dict((obj.id,obj) for obj in TimeUser.objects.filter(is_active=True))
 
         queryset = TsheetEntry.objects.filter(date__range=(startdate.strftime('%Y-%m-%d 00:00:00'),enddate.strftime('%Y-%m-%d 23:59:59'))) \
                                       .filter(client=client.name) \
@@ -52,25 +53,16 @@ def index(request):
         total_hours_and_cost = (total_hours,total_cost,total_hours2)
 
         return render(request,'timemetric/metric.html', {
-                    'title':'Analytics',
-                    'has_permission':True,
-                    'site_title':admin.site.site_title,
-                    'site_header':admin.site.site_header,
-                    'form':form,'query_results1':query_results1,
-                    'query_results2':query_results2,
-                    'query_bool':query_bool,
-                    'total_hours_and_cost':total_hours_and_cost,
-                    'client':client,
-                    'startdate':startdate,
-                    'enddate':enddate})
+                    'title':'Analytics', 'has_permission':True, 'site_title':admin.site.site_title,
+                    'site_header':admin.site.site_header, 'form':form,'query_results1':query_results1,
+                    'query_results2':query_results2, 'query_bool':query_bool,
+                    'total_hours_and_cost':total_hours_and_cost, 'client':client,
+                    'startdate':startdate, 'enddate':enddate})
 
     return render(request,'timemetric/metric.html', {
-                'title':'Analytics',
-                'has_permission':True,
-                'site_title':admin.site.site_title,
-                'site_header':admin.site.site_header,
+                'title':'Analytics', 'has_permission':True,
+                'site_title':admin.site.site_title, 'site_header':admin.site.site_header,
                 'form':form})
-
 
 
 @staff_member_required
@@ -107,19 +99,11 @@ def oldsheet(request):
                     success_msg = 'Success! You have added leave for %s on %s' % (user_id,date.strftime('%Y-%m-%d'))
                     messages.success(request,success_msg)
     return render(request,'timemetric/oldsheets.html',{
-                'title':'Filled Sheets',
-                'has_permission':True,
-                'site_title':admin.site.site_title,
-                'site_header':admin.site.site_header,
-                'form':form,
-                'get_success':get_success,
-                'user_n_date':user_n_date,
+                'title':'Filled Sheets', 'has_permission':True,
+                'site_title':admin.site.site_title, 'site_header':admin.site.site_header,
+                'form':form, 'get_success':get_success, 'user_n_date':user_n_date,
                 'other_errors':other_errors})
 
-@staff_member_required
-def render_oldsheet(request,uid,dt):
-    dt = datetime.strptime(dt,'%Y-%m-%d')
-    return rendertsheet.render_timesheet(request,uid,dt,'timesheet/index.html')
 
 @staff_member_required
 def render_leave_register(request):
@@ -128,28 +112,50 @@ def render_leave_register(request):
     user_dict = {}
     msg = ''
     if form.is_valid():
-        date = form.cleaned_data['date']
-        last_day_of_month = calendar.monthrange(date.year,date.month)[1] 
-        if last_day_of_month < 10:
-            last_day_of_month = '0'+str(last_day_of_month)
-        else:
-            last_day_of_month = str(last_day_of_month)
-        msg = 'Leave register for %d/%d' % (date.month,date.year)
-        range_2_format = '%Y-%m-'+last_day_of_month+' 23:59:59'
+        startdate = form.cleaned_data['startdate']
+        enddate = form.cleaned_data['enddate']
         for user in TimeUser.objects.all():
             user_dict[user.id] = str(user)
-        queryset = TsheetEntry.objects.filter(date__range=(date.strftime('%Y-%m-01 00:00:00'),date.strftime(range_2_format))) \
+        queryset = TsheetEntry.objects.filter(date__range=(startdate.strftime('%Y-%m-%d 00:00:00'),enddate.strftime('%Y-%m-%d 23:59:59'))) \
                                       .filter(client=Client.objects.get(pk=1).name) \
                                       .filter(jobtype=JobType.objects.get(pk=1).name) \
-                                      .filter(hours=rendertsheet.DAY_END-rendertsheet.DAY_START) \
+                                      .filter(hours=rendertsheet.HOURS_PER_LEAVE) \
                                       .values('employee') \
                                       .annotate(Count('id'))                
+        return render(request,'timemetric/leaves.html', {   
+                    'title':'Leave Register', 'has_permission':True,
+                    'site_title':admin.site.site_title, 'site_header':admin.site.site_header,
+                    'form':form, 'queryset':queryset, 'user_dict':user_dict,'startdate':startdate,'enddate':enddate})
     return render(request,'timemetric/leaves.html', {   
-                'title':'Leave Register',
-                'has_permission':True,
-                'site_title':admin.site.site_title,
-                'site_header':admin.site.site_header,
-                'form':form,
-                'queryset':queryset,
-                'user_dict':user_dict,
-                'msg':msg})
+                'title':'Leave Register', 'has_permission':True,
+                'site_title':admin.site.site_title, 'site_header':admin.site.site_header, 'form':form})
+
+
+@staff_member_required
+def render_hourly_metric(request):
+    form = HourlyMetricInputForm(request.GET or None)
+    if form.is_valid():
+        startdate = form.cleaned_data['startdate']
+        enddate = form.cleaned_data['enddate']
+        users = form.cleaned_data['e']
+        queried_users_list = list(map(lambda x: x.id,users))
+        queryset = TsheetEntry.objects.filter(date__range=(startdate.strftime('%Y-%m-%d 00:00:00'),enddate.strftime('%Y-%m-%d 23:59:59'))) \
+                                      .filter(employee__in=queried_users_list).values('employee').annotate(Sum('hours'))
+
+        total_users_dict = dict((obj.id,obj) for obj in TimeUser.objects.filter(is_active=True))
+        total_work_hrs = get_number_of_weekdays(startdate,enddate) * rendertsheet.HOURS_PER_LEAVE
+        return render(request,'timemetric/hourly_metric.html', {
+            'title':'Hourly Metric', 'has_permission':True, 'site_title':admin.site.site_title,
+            'site_header':admin.site.site_header, 'form':form, 
+            'total_users_dict':total_users_dict, 'queryset':queryset,
+            'startdate':startdate,'enddate':enddate,'total_work_hrs':total_work_hrs})
+    return render(request,'timemetric/hourly_metric.html', {
+        'title':'Hourly Metric', 'has_permission':True, 'site_title':admin.site.site_title,
+        'site_header':admin.site.site_header, 'form':form, })
+
+
+@staff_member_required
+def render_oldsheet(request,uid,dt):
+    dt = datetime.strptime(dt,'%Y-%m-%d')
+    return rendertsheet.render_monthly_timesheet(request,uid,dt,'timesheet/monthly.html')
+

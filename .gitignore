@@ -9,6 +9,7 @@ __pycache__/
 #IDE
 .idea
 .tern-project
+.swp
 tags
 
 # Distribution / packaging

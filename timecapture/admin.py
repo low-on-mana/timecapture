@@ -28,7 +28,7 @@ class UserChangeForm(forms.ModelForm):
     """
     class Meta:
         model = TimeUser
-        fields = ('email','is_active', 'is_staff','cost_per_hr')
+        fields = ('email','is_active', 'is_staff','cost_per_hr','first_name','last_name')
 
 
 class UserAdmin(BaseUserAdmin):
@@ -40,7 +40,7 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('is_staff',)
     fieldsets = (
         (None, {'fields': ('email',)}),
-        # ('Personal info', {'fields': ('date_of_birth',)}),
+        ('Personal info', {'fields': ('first_name','last_name')}),
         ('Professional info', {'fields': ('cost_per_hr',)}),
         ('Permissions', {'fields': ('is_staff','is_active')}),
     )

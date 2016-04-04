@@ -83,9 +83,15 @@ $(document).ready(function(){
 
     $(this).on('click','#popover-button',function(){
         var popId = $(this).closest('.popover').attr('id'); 
-        var client = $(this).siblings('#select-client').find(':selected');
+        var client_select = $(this).siblings('#select-client');
         var jobtype = $(this).siblings('#select-jobtype').find(':selected');
         var description = $(this).siblings('#input-description');
+
+        if(jobtype.data('ismis') === 'True'){
+            client_select.val(mcName);
+        }
+        var client = client_select.find(':selected');
+
         $('.oldie').each(function(){
             if( $(this).attr('aria-copy') === popId)
             { 
@@ -197,6 +203,13 @@ $(document).ready(function(){
         var max_length = $(this).attr('maxlength');
         var cur_length = $(this).val().length; 
         $(this).siblings('span#input-length-span').text(max_length-cur_length);
+    });
+
+    $(this).on('change','select#select-jobtype',function(){
+        var selected_option = $(this).find(':selected');
+        if(selected_option.data('ismis') === 'True'){
+            $(this).siblings('select#select-client').val(mcName);
+        }
     });
 
 });

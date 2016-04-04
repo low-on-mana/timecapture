@@ -115,7 +115,7 @@
                     {% endfor %}
                 </select> 
                 <select id="select-jobtype" class="form-control">
-                    {% for jobtype in jobtypes %} <option>{{ jobtype.name }}</option> 
+                    {% for jobtype in jobtypes %} <option data-ismis="{{ jobtype.is_miscellaneous }}">{{ jobtype.name }}</option> 
                     {% endfor %}
                 </select>
                 <br> <br>

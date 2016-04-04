@@ -1,0 +1,105 @@
+{% extends "timemetric/admin/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block extrastyle %}
+{% include 'timecapture/basic_css.html' %}
+<link rel="stylesheet" href="{% static 'admin/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'bootstrap-daterangepicker-master/daterangepicker.css' %}">
+<style>
+    #header {
+        box-sizing: content-box;
+    }
+    #site-name {
+        line-height : inherit;   /* fuckin bootstrap wasted hours here */
+    }
+    .sel-all, .rem-all {
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+
+{% block content %}
+<!-- Errors -->
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+</p>
+{% endif %}
+
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">
+    {{ error }}
+</p>
+{% endfor %}
+{% endif %}
+<!-- Errors end -->
+{% endblock %}
+
+{% block footer %}
+{% include 'timecapture/basic_js.html' %}
+<script src="{% static 'bootstrap-daterangepicker-master/moment.min.js' %}"></script>
+<script src="{% static 'bootstrap-daterangepicker-master/daterangepicker.js' %}"></script>
+<script src="{% static 'jspdf.min.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $('.sel-all').click(function(){
+         $('option', $(this).parent()).prop('selected',true);
+    });
+
+    $('.rem-all').click(function(){
+         $('option', $(this).parent()).prop('selected',false);
+    });
+    function cb(start, end) {
+        $('#{{ form.daterange.id_for_label }}').val(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
+        $('#{{ form.startdate.id_for_label }}').val(start.format('YYYY-MM-DD'));
+        $('#{{ form.enddate.id_for_label }}').val(end.format('YYYY-MM-DD'));
+    }
+
+    $('#{{ form.daterange.id_for_label }}').daterangepicker({
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+    if( $('#{{ form.startdate.id_for_label }}').val() === '') {
+        cb(moment().subtract(29, 'days'), moment());
+    }
+    $('div.ranges>ul>li').css('list-style-type','none');
+    {% if query_bool %}
+    $('#myModal').modal('show');
+    $('#getPDF').click(function(){
+        var specialElementHandlers = {
+            '#ignorePDF':function(element,renderer){
+                return true;
+            }
+        };
+        var doc = new jsPDF('p','pt','a4');
+        doc.setFontSize(15);
+        doc.fromHTML($('#render-to-pdf').html(),15,15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+        doc.save('sample.pdf');
+    });
+    {% endif %}
+
+});
+</script>
+{% endblock %}
+

@@ -14,23 +14,34 @@
     {{form.daterange.errors}}{{form.daterange}}
     <p class="help">{{form.daterange.help_text}}</p>
 </div>
+<div class="form-row" >
+    <label for="{{form.employee.id_for_label}}">{{form.e.label}}</label>
+    {{form.e.errors}}{{form.e}}
+    <a  class="sel-all">Select All</a>&nbsp;&nbsp;
+    <a  class="rem-all">Remove All</a>
+    <p class="help">{{form.e.help_text}}</p>
+</div>
+<div class="form-row" >
+</div>
 <div class="submit-row">
     <input id="submitbutton" type="submit" value="submit" class="default" name="_save"/>
 </div>
 </fieldset>
 </form>
 {% if queryset %}
-    <h1>Leave register from {{ startdate|date:"d-M-Y" }} to {{ enddate|date:"d-M-Y" }}</h1>
+    <h1>Hourly metric from {{ startdate|date:"d-M-Y" }} to {{ enddate|date:"d-M-Y" }}</h1>
+    <h1>Total Working Hours = {{ total_work_hrs }}</h1>
+    <p class="help">Note: Only considering weekdays while calculating total working hours.</p>
 <table class="table table-striped">
     <thead>
         <th>Employee</th>
-        <th>Leaves</th>
+        <th>Hours marked</th>
     </thead>
     <tbody>
         {% for query_item in queryset %}
         <tr> 
-            <td>{{ user_dict|get_item:query_item.employee}}</td>
-            <td>{{ query_item.id__count }}</td>
+            <td>{{total_users_dict|get_item:query_item.employee}}</td>
+            <td>{{ query_item.hours__sum }}</td>
         </tr>
         {% endfor %}
     </tbody>

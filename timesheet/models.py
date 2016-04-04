@@ -2,7 +2,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
 class Client(models.Model):
-    name = models.CharField(_('name'), max_length=30)
+    name = models.CharField(_('name'), max_length=30,
+            help_text='Timesheet entries are saved by name hence change/delete only when entries corresponding to this client are not needed')
     color = models.CharField(_('color'), max_length=30,default='Blue')
 
     def __str__(self):
@@ -10,6 +11,8 @@ class Client(models.Model):
 
 class JobType(models.Model):
     name = models.CharField(_('name'), max_length=30)
+    is_miscellaneous = models.BooleanField(_('is_miscellaneous'),default=False,
+            help_text='Forces the client to become \'Miscellaneous\' when this job is chosen')
 
     def __str__(self):
         return self.name

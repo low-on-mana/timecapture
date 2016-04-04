@@ -1,11 +1,7 @@
 from django.contrib import admin
 from .models import Client,JobType
-from .forms import ClientCreateForm
 
 class ClientModelAdmin(admin.ModelAdmin):
-    form = ClientCreateForm
-    add_form = ClientCreateForm
-
     list_display = ('name','color','colorblock')
 
     def colorblock(self,obj):
@@ -21,7 +17,7 @@ class ClientModelAdmin(admin.ModelAdmin):
     )
 
 class JobtypeModelAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name','is_miscellaneous',)
 
 admin.site.register(Client,ClientModelAdmin)
 admin.site.register(JobType,JobtypeModelAdmin)
