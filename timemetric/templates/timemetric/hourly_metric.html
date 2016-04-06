@@ -31,7 +31,7 @@
 {% if queryset %}
     <h1>Hourly metric from {{ startdate|date:"d-M-Y" }} to {{ enddate|date:"d-M-Y" }}</h1>
     <h1>Total Working Hours = {{ total_work_hrs }}</h1>
-    <p class="help">Note: Only considering weekdays while calculating total working hours.</p>
+    <p class="help">Note: Total working hours does not include weekends</p>
 <table class="table table-striped">
     <thead>
         <th>Employee</th>

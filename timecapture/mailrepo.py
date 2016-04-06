@@ -29,12 +29,12 @@ def get_credentials():
     Returns:
         Credentials, the obtained credential.
     """
-    home_dir = os.path.expanduser('~')
-    credential_dir = os.path.join(home_dir, '.credentials')
+    # home_dir = os.path.expanduser('~')
+    credential_dir = os.path.join('/home/anoop/', '.credentials')
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
     credential_path = os.path.join(credential_dir,
-                                   'gmail-python-quickstart.json')
+                                   'tenet_timesheet_bot.json')
 
     store = oauth2client.file.Storage(credential_path)
     credentials = store.get()

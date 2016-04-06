@@ -12,8 +12,8 @@
                 <tr>
                     <th>Employee</th>
                     <th>Hours</th>
-                    <th>CostPerHr</th>
-                    <th>TotalCost</th>
+                    <th>Cost Per Hour</th>
+                    <th>Total Cost</th>
                 </tr>
                 {% for query_item in query_results1 %}
                 <tr>
@@ -25,7 +25,7 @@
                 {% endfor %}
 
                 <tr>
-                    <th>Total Hrs</th>
+                    <th>Total Hours</th>
                     <td>{{ total_hours_and_cost.0 }}</td>
                     <th>Total Cost</th>
                     <td>{{ total_hours_and_cost.1 }}</td>
@@ -33,10 +33,10 @@
             </table>
             <br>
             <br>
-            <p>Only the following jobtypes have been considered:</p>
+            <p>Job types considered: </p>
             <table style="margin:0 auto;width:700px" class="table table-striped">
                 <tr>
-                    <th>Jobtype</th>
+                    <th>Job Type</th>
                     <th>Hours</th>
                 </tr> 
                 {% for query_item in query_results2 %}
@@ -46,7 +46,7 @@
                 </tr> 
                 {% endfor %}
                 <tr>
-                    <th>Total Hrs</th>
+                    <th>Total Hours</th>
                     <td>{{ total_hours_and_cost.2 }}</td>
                 </tr> 
             </table>

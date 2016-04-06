@@ -57,7 +57,7 @@ span.description {
 /* MESSAGES & ERRORS */
 ul.messages {
     padding: 0;
-    margin-top: 10px;
+    margin-top: 45px;
 }
 
 ul.messages li {
@@ -82,12 +82,16 @@ ul.messages li.error {
 }
 
 ul.progress-ul {
-    height: 7px;
+    height: 10px;
 }
 div.progress-div {
-    height: 7px;
+    height: 10px;
 }
 div.modal-footer>h5 {
     display: inline-block;
     float: left;
+}
+span.progress-span {
+    color:lightgreen;
+    font-size:20pt;  
 }

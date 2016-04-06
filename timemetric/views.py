@@ -96,7 +96,7 @@ def oldsheet(request):
                                              jobtype=JobType.objects.get(pk=1).name,
                                              employee=user_id.id)
                     tsheet_obj.save()
-                    success_msg = 'Success! You have added leave for %s on %s' % (user_id,date.strftime('%Y-%m-%d'))
+                    success_msg = 'Success! You have marked leave for %s on %s' % (user_id,date.strftime('%Y-%m-%d'))
                     messages.success(request,success_msg)
     return render(request,'timemetric/oldsheets.html',{
                 'title':'Filled Sheets', 'has_permission':True,

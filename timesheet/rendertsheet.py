@@ -5,7 +5,7 @@ from timecapture.commons import get_number_of_weekdays
 from .models import JobType, Client, TsheetEntry
 
 DAY_START = 9
-DAY_END = 22
+DAY_END = 23
 EXPECTED_WORK_HRS = 40
 EXTRA_WORK_CAPACITY = 80
 WORKING_DAYS = 5
@@ -112,7 +112,7 @@ def render_timesheet(request,userpk,date,htmlfile):
         red_progress_fill = 0
 
     if hours_worked_this_week < EXPECTED_WORK_HRS:
-        hrs_left_reach_target = EXPECTED_WORK_HRS - hours_worked_this_week
+        hrs_left_reach_target = int((hours_worked_this_week * 100) / EXPECTED_WORK_HRS)
     else:
         hrs_left_reach_target = 0
     return render(request,htmlfile,

@@ -1,10 +1,11 @@
-<nav class="navbar navbar-default navbar-fixed-top">
+{% load staticfiles %}
+<nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             {% if green_progress_fill > 0 %}
             <ul class="nav progress-ul"> 
                 <li>
-                    <div class="progress progress-div" data-toggle="tooltip" data-placement="bottom" data-title={% if hrs_left_reach_target > 0 %}"you are {{ hrs_left_reach_target }} hrs behind target" {% else %} "Well done !" {% endif %}>
+                    <div class="progress progress-div" data-toggle="tooltip" data-placement="bottom" data-html="true" data-title={% if hrs_left_reach_target > 0 %}"<span class='progress-span' >{{ hrs_left_reach_target }}% </span> of weekly timesheet target reached " {% else %} "Well done !" {% endif %}>
                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{ green_progress_fill }}%">
                             <span class="sr-only">{{ green_progress_fill }}% Complete</span>
                         </div>
@@ -39,6 +40,11 @@
                     </ul>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                     <img class="company_img" src="{% static 'tenet_small.png' %}"></img>
+                </li>
+            </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
@@ -48,19 +54,18 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Welcome to timesheet help</h4>
+        <h4 class="modal-title" id="myModalLabel">Help</h4>
       </div>
       <div class="modal-body">
-          <p>Usage instructions/restrictions: </p>
           <br>
           <ol>
-              <li>This is a Week Display / Daily Fill timesheet. </li>
-              <li>You can only fill your entries in the highlighted row with <i class="fa fa-calendar-check-o"></i> symbol.</li>
-              <li>You can select an hour with a click or drag and select multiple hours. </li>
+              <!-- <li>This is a Week Display / Daily Fill timesheet. </li> -->
+              <!-- <li>You can only fill your entries in the highlighted row with <i class="fa fa&#45;calendar&#45;check&#45;o"></i> symbol.</li> -->
+              <!-- <li>You can select an hour with a click or drag and select multiple hours. </li> -->
               <li>Entries once filled cannot be changed. So click submit after you are sure of your entries. </li>
-              <li>Entries doesn't have to be filled all together. They just have to be filled on the same day.</li>
-              <li>If you have made a mistake and not submitted yet, hit refresh <i class="fa fa-refresh"></i>.</li>
-              <li>You will be allowed to mark a day as leave if its highlighted by <i class="fa fa-beer"></i> symbol.</li>
+              <!-- <li>Entries doesn't have to be filled all together. They just have to be filled on the same day.</li> -->
+              <!-- <li>If you have made a mistake and not submitted yet, hit refresh <i class="fa fa&#45;refresh"></i>.</li> -->
+              <li>You will be allowed to mark a day as leave if its highlighted by <i class="fa fa-pagelines"></i> symbol.</li>
               <li>To mark days as leaves not displayed on this timesheet, contact a staff member.</li> 
               <li>Use latest version of firefox/chrome with javascript on. There is no support for IE/Edge.</li>
               <li>This application is still in testing phase. Please bear with it and report bugs to a staff member.</li>
@@ -68,7 +73,7 @@
         </div>
       <div class="modal-footer">
           {% if hours_worked_this_week > 0 %}
-          <h5>Hours worked this week: <strong>{{ hours_worked_this_week }}</strong></h5>
+          <h5>Hours marked this week: <strong>{{ hours_worked_this_week }}</strong></h5>
           {% endif %}
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>

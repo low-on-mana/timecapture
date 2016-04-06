@@ -9,13 +9,22 @@
 {% block content %}
 {% include 'timecapture/navbar_snippet.html' %}
 {% if firsttime %}
+<br>
+<br>
+<br>
 <h3 style="text-align:center">Welcome, it seems you are logging in for the first time. Please provide the following details. </h3>
 <br>
+<h5 style="text-align:center">You will be redirected to the login page upon completion. </h5>
+<br>
+<br>
+{% else %}
+<br>
+<br>
+<br>
+<h5 style="text-align:center">You will be redirected to the login page after you change your password.</h5>
+<br>
+<br>
 {% endif %}
-
-<h5 style="text-align:center">You will be automatically logged out and redirected to login page every time you change your password.</h5>
-<br>
-<br>
 {{form.form.max_length}}
 <form class="form-horizontal" method="post" action="{% url 'auth_info' %}" >
     {% csrf_token %}

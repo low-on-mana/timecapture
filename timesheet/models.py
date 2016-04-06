@@ -11,7 +11,7 @@ class Client(models.Model):
 
 class JobType(models.Model):
     name = models.CharField(_('name'), max_length=30)
-    is_miscellaneous = models.BooleanField(_('is_miscellaneous'),default=False,
+    is_miscellaneous = models.BooleanField(_('Miscellaneous'),default=False,
             help_text='Forces the client to become \'Miscellaneous\' when this job is chosen')
 
     def __str__(self):
