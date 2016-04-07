@@ -114,12 +114,15 @@ def render_leave_register(request):
     if form.is_valid():
         startdate = form.cleaned_data['startdate']
         enddate = form.cleaned_data['enddate']
-        for user in TimeUser.objects.all():
+        user_list = []
+        for user in TimeUser.objects.filter(is_active=True):
             user_dict[user.id] = str(user)
+            user_list.append(user.id)
         queryset = TsheetEntry.objects.filter(date__range=(startdate.strftime('%Y-%m-%d 00:00:00'),enddate.strftime('%Y-%m-%d 23:59:59'))) \
                                       .filter(client=Client.objects.get(pk=1).name) \
                                       .filter(jobtype=JobType.objects.get(pk=1).name) \
                                       .filter(hours=rendertsheet.HOURS_PER_LEAVE) \
+                                      .filter(employee__in=user_list) \
                                       .values('employee') \
                                       .annotate(Count('id'))                
         return render(request,'timemetric/leaves.html', {   
