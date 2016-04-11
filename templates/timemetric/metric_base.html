@@ -67,6 +67,9 @@ $(document).ready(function() {
         $('#{{ form.enddate.id_for_label }}').val(end.format('YYYY-MM-DD'));
     }
 
+    if( $('#{{ form.startdate.id_for_label }}').val() === '') {
+        cb(moment().subtract(29, 'days'), moment());
+    }
     $('#{{ form.daterange.id_for_label }}').daterangepicker({
         ranges: {
            'Today': [moment(), moment()],
@@ -77,9 +80,6 @@ $(document).ready(function() {
            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
     }, cb);
-    if( $('#{{ form.startdate.id_for_label }}').val() === '') {
-        cb(moment().subtract(29, 'days'), moment());
-    }
     $('div.ranges>ul>li').css('list-style-type','none');
     {% if query_bool %}
     $('#myModal').modal('show');
