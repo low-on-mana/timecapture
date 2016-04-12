@@ -11,7 +11,8 @@ from django.dispatch import receiver
 from django.contrib.auth.password_validation import validate_password
 from django import forms
 from . import mailrepo
-DEFAULT_USER_PASSWORD='skynet'
+from .settings import ALLOWED_HOSTS,COMPANY_NAME,DEFAULT_USER_PASSWORD
+
 
 
 class TimeUserManager(BaseUserManager):
@@ -131,8 +132,11 @@ class TimeUserForm(forms.ModelForm):
 def send_email_to_new_user(sender, **kwargs):
     if kwargs['created']:
         user = kwargs['instance']
-        subject = 'Welcome to Tenet Advertising'
-        content = 'Here are your login credentials\nusername: '+user.email+'\npassword: '+DEFAULT_USER_PASSWORD+'\n'
+        subject = 'Welcome to ' + COMPANY_NAME
+        content = 'Here are your login credentials\nusername: '+user.email+'\npassword: '+DEFAULT_USER_PASSWORD+'\n\n'
+        if ALLOWED_HOSTS:
+            content += 'The server address is: http://%s\n' % ALLOWED_HOSTS[0]
+
         credentials = mailrepo.get_credentials()
         http = credentials.authorize(httplib2.Http())
         service = discovery.build('gmail', 'v1', http=http)

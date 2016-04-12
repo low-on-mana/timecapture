@@ -4,7 +4,9 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import TimeUser,DEFAULT_USER_PASSWORD
+from .models import TimeUser
+from .settings import DEFAULT_USER_PASSWORD,COMPANY_NAME
+
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -58,5 +60,5 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(TimeUser, UserAdmin)
 admin.site.unregister(Group)
-admin.site.site_header = 'Tenet Administration'
-admin.site.site_title = 'Welcome Tenet Admin'
+admin.site.site_header = COMPANY_NAME + ' Administration'
+admin.site.site_title = 'Welcome '+ COMPANY_NAME +' Admin'

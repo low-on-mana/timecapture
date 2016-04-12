@@ -26,6 +26,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Private Application settings
+COMPANY_NAME = '#####'
+DEFAULT_USER_PASSWORD='######'
 
 # Application definition
 
