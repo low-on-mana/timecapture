@@ -8,13 +8,18 @@ $(document).ready(function(){
     var selectedTD = [];
     var form = $('form:first');
     $('[data-toggle="tooltip"]').tooltip();
-    function showPopover(elem){
-        elem.popover('show');
-        elem.attr('aria-copy',elem.attr('aria-describedby'));
-    }
     function hidePopover(elem){
         elem.popover('hide');
         elem.removeAttr('aria-copy');
+    }
+    function showPopover(elem){
+        elem.siblings('td.oldie').each(function(){
+            if($(this).attr('aria-copy') !== undefined){
+                hidePopover($(this));
+            }
+        });
+        elem.popover('show');
+        elem.attr('aria-copy',elem.attr('aria-describedby'));
     }
     function timesheetEntry(start,colspan,client,jobtype,date,category,description)
     {
