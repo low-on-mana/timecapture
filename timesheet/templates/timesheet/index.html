@@ -40,7 +40,12 @@
             {% if tsheet_entry.data %}
             {% for data in tsheet_entry.data %}
             {% if data %} 
-            <td data-toggle="tooltip" data-placement="top" title="{{ data.description }}" data-container="body" style="background-color:{{clients|get_item:data.client}}" colspan="{{ data.hours }}"><span class="client">{{ data.client }}</span><br><span class="jobtype">{{ data.jobtype }}</span><br><span class="description">{{ data.description }}</span></td>
+            <td data-toggle="tooltip" data-placement="top" title="{{ data.description }}" data-container="body" 
+                style="background-color:{{clients|get_item:data.client}}" colspan="{{ data.hours }}">
+                <span class="client">{{ data.client }}</span><br>
+                <span class="jobtype">{{ data.jobtype }}</span><br>
+                <span class="description">{{ data.description }}</span>
+            </td>
             {% else %}
             <td class='active2'> </td>
             {% endif %}
@@ -66,11 +71,14 @@
                     <tr>
                     <th><strong>{{ tsheet_entry.date|date:"d M D" }}</strong></th>
                     {% for data in tsheet_entry.data %}
-                        {% if data %} 
-                            <td style="background-color:{{clients|get_item:data.client}}" colspan="{{ data.hours }}">
-                                <span class="client">{{ data.client }}</span><br><span class="jobtype">{{ data.jobtype }}</span>
-                            </td>
-                        {% else %}
+                    {% if data %} 
+                        <td data-toggle="tooltip" data-placement="top" title="{{ data.description }}" data-container="body" 
+                            style="background-color:{{clients|get_item:data.client}}" colspan="{{ data.hours }}">
+                            <span class="client">{{ data.client }}</span><br>
+                            <span class="jobtype">{{ data.jobtype }}</span><br>
+                            <span class="description">{{ data.description }}</span>
+                        </td>
+                    {% else %}
                             <td></td>
                         {% endif %}
                     {% endfor %}
