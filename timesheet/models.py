@@ -5,6 +5,8 @@ class Client(models.Model):
     name = models.CharField(_('name'), max_length=30,unique=True,
             help_text='Timesheet entries are saved by name hence change/delete only when entries corresponding to this client are not needed')
     color = models.CharField(_('color'), max_length=30,default='Blue')
+    is_active = models.BooleanField(_('Active'),default=True,
+            help_text='Only active clients will be shown while marking hours')
 
     def __str__(self):
         return self.name

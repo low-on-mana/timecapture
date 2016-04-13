@@ -99,7 +99,7 @@ def render_timesheet(request,userpk,date,htmlfile):
     miscellaneous_client = ()
     jobtypes = JobType.objects.all()
 
-    for client in Client.objects.all():
+    for client in Client.objects.filter(is_active=True):
         if client.id == 1:
             miscellaneous_client = (client.name,client.color,HOURS_PER_LEAVE,jobtypes[0].name)
         client_dict[client.name] = client.color

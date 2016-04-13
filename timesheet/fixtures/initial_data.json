@@ -4,7 +4,8 @@
     "pk": 1,
     "fields": {
       "name": "Miscellaneous",
-      "color": "#6195a0"
+      "color": "#6195a0",
+      "is_active": "True"
     }
   },
   {

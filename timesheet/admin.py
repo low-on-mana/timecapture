@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Client,JobType
 
 class ClientModelAdmin(admin.ModelAdmin):
-    list_display = ('name','color','colorblock')
+    list_display = ('name','color','colorblock','is_active')
 
     def colorblock(self,obj):
         return '<div style="width:50px;height:20px;background-color:%s"> </div>' % obj.color
@@ -12,7 +12,7 @@ class ClientModelAdmin(admin.ModelAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('name','color',)} 
+            'fields': ('name','color','is_active')} 
         ),
     )
 
