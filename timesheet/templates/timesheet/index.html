@@ -119,7 +119,7 @@
     <button id="push-timesheet" type="submit" class="btn btn-primary">Save</button>
     <div id="popover-form" class="hide">
         <form class="form-inline" role="form">
-            <div class="form-group">
+            <div class="form-group form-group-sm">
                 <select id="select-client" class="form-control">
                     {% for cl_name,cl_color in clients.items %} <option data-color="{{ cl_color }}">{{ cl_name }}</option>
                     {% endfor %}

@@ -95,3 +95,7 @@ span.progress-span {
     color:lightgreen;
     font-size:20pt;  
 }
+.tooltip-inner {
+    white-space:pre;
+    max-width:none;
+}
