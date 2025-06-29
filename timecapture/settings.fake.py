@@ -77,17 +77,20 @@ WSGI_APPLICATION = 'timecapture.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql', 
-            'NAME': 'timecapture',
-            'USER': '#####',
-            'PASSWORD': '#####',
-            'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-            'PORT': '3306',
-            }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',  # Still use mysql backend
+        'NAME': 'timecapture',
+        'USER': 'user',
+        'PASSWORD': 'pass',
+        'HOST': 'db',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
+    }
+}
+
 AUTH_PASSWORD_VALIDATORS = [
         # {
         #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',

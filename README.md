@@ -4,12 +4,17 @@ A time tracking application using Docker, Django, and MariaDB.
 
 ## Quick Start
 
-### 1. Start all services
+### 1. Copy settings
+```bash
+cp timecapture/settings.fake.py timecapture/settings.py
+```
+
+### 2. Start all services
 ```bash
 docker compose up --build
 ```
 
-### 2. Create a superuser
+### 3. Create a superuser
 First, identify your web container:
 ```bash
 docker ps
@@ -20,7 +25,7 @@ Then create the superuser (using the appropriate container name):
 docker exec -it timecapture-web-1 python manage.py createsuperuser
 ```
 
-### 3. Access the application
+### 4. Access the application
 - **Admin interface**: http://localhost:8000/admin/
 - **User portal**: http://localhost:8000/
 
