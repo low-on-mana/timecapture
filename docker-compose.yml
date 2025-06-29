@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: timecapture
+      MARIADB_USER: user
+      MARIADB_PASSWORD: pass
+    command: --bind-address=0.0.0.0
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db-init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  web:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      DB_NAME: timecapture
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_HOST: db
+      DB_PORT: 3306
+      DJANGO_SECRET_KEY: dev-secret-key
+      DJANGO_DEBUG: "True"
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+    command: >
+      sh -c "
+        sleep 10 &&
+        python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8000"
+
+volumes:
+  mysql_data:
