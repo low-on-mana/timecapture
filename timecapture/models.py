@@ -136,9 +136,12 @@ def send_email_to_new_user(sender, **kwargs):
         content = 'Here are your login credentials\nusername: '+user.email+'\npassword: '+DEFAULT_USER_PASSWORD+'\n\n'
         if ALLOWED_HOSTS:
             content += 'The server address is: http://%s\n' % ALLOWED_HOSTS[0]
+        print("Mail disabled !! Logging it here")
+        print("Subject: "+ subject)
+        print("Content: "+ content)
 
-        credentials = mailrepo.get_credentials()
-        http = credentials.authorize(httplib2.Http())
-        service = discovery.build('gmail', 'v1', http=http)
-        message = mailrepo.CreateMessage('timesheet.tenet.bot@gmail.com',user.email,subject,content)
-        mailrepo.SendMessage(service,'me',message)
+        # credentials = mailrepo.get_credentials()
+        # http = credentials.authorize(httplib2.Http())
+        # service = discovery.build('gmail', 'v1', http=http)
+        # message = mailrepo.CreateMessage('timesheet.tenet.bot@gmail.com',user.email,subject,content)
+        # mailrepo.SendMessage(service,'me',message)
